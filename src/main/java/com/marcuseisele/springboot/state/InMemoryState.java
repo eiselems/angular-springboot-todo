@@ -1,5 +1,6 @@
 package com.marcuseisele.springboot.state;
 
+import com.marcuseisele.springboot.exceptions.TodoNotFoundException;
 import com.marcuseisele.springboot.model.Todo;
 
 import java.util.Collection;
@@ -39,17 +40,18 @@ public class InMemoryState {
 
     public Todo removeTodo(long id){
         if(!todos.containsKey(id)){
-            return null;
+            throw new TodoNotFoundException(id);
         }
         return todos.remove(id);
 
     }
 
     public Todo getTodo(long id) {
-        if(todos.containsKey(id)){
-            return todos.get(id);
+        if(!todos.containsKey(id)){
+            throw new TodoNotFoundException(id);
         }
 
-        return null;
+        return todos.get(id);
+
     }
 }
