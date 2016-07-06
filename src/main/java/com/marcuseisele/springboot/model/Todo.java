@@ -5,34 +5,34 @@ package com.marcuseisele.springboot.model;
  */
 public class Todo {
 
-    private final long id;
-    private String text;
-    private boolean done;
+    private long id;
 
-    public Todo(long id, String text) {
-        this.id = id;
-        this.text = text;
-        this.done = false;
+    private String title;
+    private boolean completed;
+
+    public Todo(){
+
     }
 
-    public long getId() {
-        return id;
+    public Todo(String title, boolean completed) {
+        this.title = title;
+        this.completed = completed;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public boolean isDone() {
-        return done;
+    public boolean getCompleted() {
+        return completed;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override
@@ -42,12 +42,23 @@ public class Todo {
 
         Todo todo = (Todo) o;
 
-        return id == todo.id;
+        if (completed != todo.completed) return false;
+        return title != null ? title.equals(todo.title) : todo.title == null;
 
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (completed ? 1 : 0);
+        return result;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

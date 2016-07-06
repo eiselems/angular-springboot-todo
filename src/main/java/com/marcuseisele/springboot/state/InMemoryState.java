@@ -21,8 +21,8 @@ public class InMemoryState {
         this.todos = new HashMap<>();
     }
 
-    public static InMemoryState getInstance(){
-        if(instance == null){
+    public static InMemoryState getInstance() {
+        if (instance == null) {
             instance = new InMemoryState();
         }
         return instance;
@@ -32,14 +32,14 @@ public class InMemoryState {
         return todos.values();
     }
 
-    public Todo addNewTodo(String todoText){
-        Todo todo = new Todo(++latestId, todoText);
-        todos.put(latestId, todo);
-        return todo;
+    public Todo addNewTodo(Todo newTodo) {
+        newTodo.setId(++latestId);
+        todos.put(latestId, newTodo);
+        return newTodo;
     }
 
-    public Todo removeTodo(long id){
-        if(!todos.containsKey(id)){
+    public Todo removeTodo(long id) {
+        if (!todos.containsKey(id)) {
             throw new TodoNotFoundException(id);
         }
         return todos.remove(id);
@@ -47,11 +47,23 @@ public class InMemoryState {
     }
 
     public Todo getTodo(long id) {
-        if(!todos.containsKey(id)){
+        if (!todos.containsKey(id)) {
             throw new TodoNotFoundException(id);
         }
 
         return todos.get(id);
 
+    }
+
+    public Todo updateTodo(long id, Todo update) {
+        if (!todos.containsKey(id)) {
+            throw new TodoNotFoundException(id);
+        }
+        //TODO: add better handling of differences between id in path and id in update
+        //        if(id != update.getId()){
+        //            throw new whateverException;
+        //        }
+        todos.put(id, update);
+        return update;
     }
 }
